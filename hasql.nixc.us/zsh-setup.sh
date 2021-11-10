@@ -18,7 +18,7 @@ sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="pygmalion"/' /root/.zshrc
 #   git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
 
 ## Enable plugins
-# sed -i 's\plugins=(git)\plugins(git cp colored-man-pages docker docker-compose extract iterm2 python rsync safe-paste transfer ubuntu zsh_reload zsh-navigation-tools)\' /root/.zshrc
+# sed -i 's\plugins=(git)\plugins=(git cp colored-man-pages docker docker-compose extract iterm2 python rsync safe-paste transfer ubuntu zsh_reload zsh-navigation-tools)\' /root/.zshrc
 
 
 ## Cleanup
