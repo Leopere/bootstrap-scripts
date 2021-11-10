@@ -25,5 +25,3 @@ sed -i 's\plugins=(git)\plugins(git cp colored-man-pages docker docker-compose e
 sed -i 's\bash /root/zsh-setup.sh\\' /root/.profile
 rm -f /root/zsh-setup.sh
 echo "Relog into terminal finished bootstrapping server"
-
-exit
