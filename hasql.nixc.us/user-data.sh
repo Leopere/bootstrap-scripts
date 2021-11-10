@@ -5,6 +5,7 @@ eval "$(sentry-cli bash-hook)"
 
 ## digitalocean-user-data sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns
 ## digitalocean-user-data@nixc.us
+## #!/usr/bin/env bash
 ## source <(curl -s https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/user-data.sh)
 
 curl -sL https://sentry.io/get-cli/ | bash
