@@ -18,7 +18,7 @@ echo 'export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces
 #   git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
 
 ## Enable plugins
-sed -i 's\plugins=(git)\plugins(git cp colored-man-pages docker docker-compose extract iterm2 python rsync safe-paste transfer ubuntu zsh_reload zsh-navigation-tools)\' /root/.zshrc
+sed -i 's\plugins=(git)\plugins(git, cp, colored-man-pages, docker, docker-compose, extract, iterm2, python, rsync, safe-paste, transfer, ubuntu, zsh_reload, zsh-navigation-tools)\' /root/.zshrc
 
 
 ## Cleanup
