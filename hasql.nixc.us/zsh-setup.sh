@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 ## Setup ZSH and ohmyzsh theme
 # cd /root/
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
