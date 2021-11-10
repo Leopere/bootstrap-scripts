@@ -1,0 +1,2 @@
+## Scope
+Digital Ocean droplet "user data" instruction set for bootstrapping a Digital Ocean droplet to certain specifications required for deployment scopes.  Each branch should contain a bootstrap instruction set to restore a droplet to the latest update of a configuration.  This way one static file can be updated and a droplet can be more like a container designed to be "as ephemeral as possible"

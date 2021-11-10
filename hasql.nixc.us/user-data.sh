@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
+set -e
+export SENTRY_DSN=https://d7eb76933ae046c9a4fd3d29572b1462:3aba191d95a648118e78cc5f81cbd92c@sentry.adventuresinnewmedia.com/43
+eval "$(sentry-cli bash-hook)"
+
 ## digitalocean-user-data sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns
 ## digitalocean-user-data@nixc.us
 ## source <(curl -s https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/user-data.sh)
 
+curl -sL https://sentry.io/get-cli/ | bash
 export HOSTNAME=$(curl -s http://169.254.169.254/metadata/v1/hostname)
 echo $HOSTNAME > /etc/hostname
 hostname -F /etc/hostname
@@ -24,12 +29,8 @@ apt-get update
 apt-get dist-upgrade -y
 apt-get install -y iftop htop glances zsh glusterfs-server glusterfs-client salt-minion
 
-## Setup ZSH and ohmyzsh theme
-# cd /root/
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-#echo y|sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-chsh -s $(which zsh)
-sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="pygmalion"/g' /root/.zshrc
+## Force install ohmyzsh on first login
+curl -o /root/.bash_login https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/user-data.sh
 
 ## Install docker-compose and docker using convenience scripts
 curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
