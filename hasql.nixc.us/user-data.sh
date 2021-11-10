@@ -36,4 +36,5 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 
 ## Force install ohmyzsh on first login
-curl -o /root/.bash_login https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/user-data.sh
+curl -o /root/zsh-setup.sh https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/zsh-setup.sh
+chmod +x /root/zsh-setup.sh
