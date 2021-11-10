@@ -37,4 +37,4 @@ sh get-docker.sh
 
 ## Force install ohmyzsh on first login
 curl -o /root/zsh-setup.sh https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/zsh-setup.sh
-chmod +x /root/zsh-setup.sh
+echo bash /root/zsh-setup.sh >> /root/.profile
