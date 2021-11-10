@@ -13,7 +13,7 @@ export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces/publi
 ## Installing Salt for Ubuntu 20.04
 curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main" | sudo tee /etc/apt/sources.list.d/salt.list
-mkdir -P /etc/salt/minion.d/
+mkdir -p /etc/salt/minion.d/
 echo 'master: nacl.nixc.us' > /etc/salt/minion.d/99-master-address.conf
 
 ## Installing Glusterfs-7 https://www.digitalocean.com/community/tutorials/how-to-create-a-redundant-storage-pool-using-glusterfs-on-ubuntu-20-04
