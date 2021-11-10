@@ -1,6 +1,7 @@
 #!/bin/bash
 ## digitalocean-user-data sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns
 ## digitalocean-user-data@nixc.us
+## bash <(curl -s https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/user-data.sh)
 
 export HOSTNAME=$(curl -s http://169.254.169.254/metadata/v1/hostname)
 echo $HOSTNAME > /etc/hostname
