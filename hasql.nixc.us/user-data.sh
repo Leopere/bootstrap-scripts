@@ -29,11 +29,11 @@ apt-get update
 apt-get dist-upgrade -y
 apt-get install -y iftop htop glances zsh glusterfs-server glusterfs-client salt-minion
 
-## Force install ohmyzsh on first login
-curl -o /root/.bash_login https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/user-data.sh
-
 ## Install docker-compose and docker using convenience scripts
 curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
+
+## Force install ohmyzsh on first login
+curl -o /root/.bash_login https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/user-data.sh
