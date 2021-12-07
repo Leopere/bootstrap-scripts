@@ -17,7 +17,7 @@ sed -i'' -e 's@ZSH_THEME="robbyrussell"@ZSH_THEME="pygmalion"@' $USRDIR/.zshrc
   ## History Substring search.
   git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-$USRDIR/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
   ## ZSH Command Execution Time
-  git clone https://github.com/popstas/zsh-command-time.git ${ZSH_CUSTOM:-$USRDIR/.oh-my-zsh/custom/plugins/command-time
+  git clone https://github.com/popstas/zsh-command-time.git ${ZSH_CUSTOM:-$USRDIR/.oh-my-zsh/custom}/.oh-my-zsh/custom/plugins/command-time
   ## Configure plugins and envvars.
   cat <<EOF >> ~/.zshrc
   # If command execution time above min. time, plugins will not output time.
