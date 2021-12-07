@@ -30,7 +30,7 @@ sed -i'' -e 's@ZSH_THEME="robbyrussell"@ZSH_THEME="pygmalion"@' $USRDIR/.zshrc
   ZSH_COMMAND_TIME_COLOR="cyan"
 
   # Exclude some commands
-  ZSH_COMMAND_TIME_EXCLUDE=(vim mcedit nano)
+  ZSH_COMMAND_TIME_EXCLUDE=(vim mcedit nano ctop ssh)
 EOF
 
 ## Enable plugins
