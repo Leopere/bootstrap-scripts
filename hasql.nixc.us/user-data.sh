@@ -34,7 +34,7 @@ wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
 
 ## Installing packages
 apt-get update
-apt-get dist-upgrade -y
+apt-get upgrade -y
 apt-get install -y asciinema iftop htop glances zsh glusterfs-server glusterfs-client salt-minion docker-ctop asciinema
 
 ## Install docker-compose and docker using convenience scripts
