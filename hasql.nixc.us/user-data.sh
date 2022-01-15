@@ -8,15 +8,15 @@ set -e
 ## #!/usr/bin/env bash
 ## source <(curl -s https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/user-data.sh)
 
-curl -sL https://sentry.io/get-cli/ | bash
+# curl -sL https://sentry.io/get-cli/ | bash
 
 ## BLOCK THIS OUT IF NOT DEPLOYING TO DIGITALOCEAN ##
-# export HOSTNAME=$(curl -s http://169.254.169.254/metadata/v1/hostname)
-# echo $HOSTNAME > /etc/hostname
-# hostname -F /etc/hostname
-# hostname -f
-# export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
-# export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv6/address)
+export HOSTNAME=$(curl -s http://169.254.169.254/metadata/v1/hostname)
+echo $HOSTNAME > /etc/hostname
+hostname -F /etc/hostname
+hostname -f
+export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
+export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv6/address)
 ## BLOCK THIS OUT IF NOT DEPLOYING TO DIGITALOCEAN ##
 
 ## Installing Salt for Ubuntu 20.04
@@ -35,7 +35,7 @@ wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
 ## Installing packages
 apt-get update
 apt-get dist-upgrade -y
-apt-get install -y asciinema iftop htop glances zsh glusterfs-server glusterfs-client salt-minion docker-ctop
+apt-get install -y asciinema iftop htop glances zsh glusterfs-server glusterfs-client salt-minion docker-ctop asciinema
 
 ## Install docker-compose and docker using convenience scripts
 curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
