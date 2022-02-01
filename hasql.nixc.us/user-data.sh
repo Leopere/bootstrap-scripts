@@ -26,7 +26,7 @@ mkdir -p /etc/salt/minion.d/
 echo 'master: nacl.nixc.us' > /etc/salt/minion.d/99-master-address.conf
 
 ## Installing Glusterfs-7 https://www.digitalocean.com/community/tutorials/how-to-create-a-redundant-storage-pool-using-glusterfs-on-ubuntu-20-04
-echo |add-apt-repository ppa:gluster/glusterfs-7
+# echo |add-apt-repository ppa:gluster/glusterfs-7
 
 ## Install Container Top ctop
 echo "deb http://packages.azlux.fr/debian/ buster main" | sudo tee /etc/apt/sources.list.d/azlux.list
@@ -35,7 +35,8 @@ wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
 ## Installing packages
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confold' --force-yes -fuy dist-upgrade
-DEBIAN_FRONTEND=noninteractive apt-get install -y asciinema iftop htop glances zsh glusterfs-server glusterfs-client salt-minion docker-ctop asciinema
+DEBIAN_FRONTEND=noninteractive apt-get install -y asciinema iftop htop glances zsh salt-minion docker-ctop asciinema
+# DEBIAN_FRONTEND=noninteractive apt-get install -y glusterfs-server glusterfs-client
 
 ## Install docker-compose and docker using convenience scripts
 curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
