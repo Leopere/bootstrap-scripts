@@ -35,7 +35,7 @@ wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
 ## Installing packages
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confold' --force-yes -fuy dist-upgrade
-DEBIAN_FRONTEND=noninteractive apt-get install -y asciinema iftop htop glances zsh salt-minion docker-ctop asciinema
+DEBIAN_FRONTEND=noninteractive apt-get install -y asciinema iftop htop glances zsh salt-minion docker-ctop asciinema git
 # DEBIAN_FRONTEND=noninteractive apt-get install -y glusterfs-server glusterfs-client
 
 ## Install docker-compose and docker using convenience scripts
