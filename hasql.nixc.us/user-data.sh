@@ -51,4 +51,4 @@ chmod +x /usr/local/bin/ctop
 ## Force install ohmyzsh on first login
 curl -o /root/zsh-setup.sh https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/master/hasql.nixc.us/zsh-setup.sh
 echo bash ~/zsh-setup.sh >> ~/.profile
-source ~/.profile
+# source ~/.profile
