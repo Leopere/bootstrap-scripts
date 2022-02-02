@@ -40,7 +40,7 @@ sed -i'' -e 's@plugins=(git)@plugins=(git cp colored-man-pages docker docker-com
 
 
 ## Cleanup
-#sed -i'' -e 's@bash $USRDIR/zsh-setup.sh@@' $USRDIR/.profile
+sed -i'' -e 's@bash $USRDIR/zsh-setup.sh@@' $USRDIR/.profile
 #rm -f $USRDIR/zsh-setup.sh
 echo "Relog into terminal finished bootstrapping server"
 chsh -s $(which zsh)
