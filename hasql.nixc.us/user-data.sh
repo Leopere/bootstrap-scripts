@@ -10,14 +10,14 @@ set -e
 
 # curl -sL https://sentry.io/get-cli/ | bash
 
-# ## BLOCK THIS OUT IF NOT DEPLOYING TO DIGITALOCEAN ##
-# export HOSTNAME=$(curl -s http://169.254.169.254/metadata/v1/hostname)
-# echo $HOSTNAME > /etc/hostname
-# hostname -F /etc/hostname
-# hostname -f
-# export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
-# export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv6/address)
-# ## BLOCK THIS OUT IF NOT DEPLOYING TO DIGITALOCEAN ##
+## BLOCK THIS OUT IF NOT DEPLOYING TO DIGITALOCEAN ##
+export HOSTNAME=$(curl -s http://169.254.169.254/metadata/v1/hostname)
+echo $HOSTNAME > /etc/hostname
+hostname -F /etc/hostname
+hostname -f
+export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
+export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv6/address)
+## BLOCK THIS OUT IF NOT DEPLOYING TO DIGITALOCEAN ##
 
 ## Installing Salt for Ubuntu 20.04
 curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
