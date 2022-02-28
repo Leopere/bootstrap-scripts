@@ -5,11 +5,11 @@ USRDIR=$(echo ~)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 # echo y|sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 sed -i'' -e 's@ZSH_THEME="robbyrussell"@ZSH_THEME="pygmalion"@' $USRDIR/.zshrc
-# ## BLOCK THIS OUT IF NOT DEPLOYING TO DIGITALOCEAN ##
-# echo 'export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)' >> $USRDIR/.zshrc
-# echo 'export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv6/address)' >> $USRDIR/.zshrc
-# echo 'export SENTRY_DSN=https://d7eb76933ae046c9a4fd3d29572b1462:3aba191d95a648118e78cc5f81cbd92c@sentry.adventuresinnewmedia.com/43' >> $USRDIR/.zshrc
-# ## BLOCK THIS OUT IF NOT DEPLOYING TO DIGITALOCEAN ##
+## BLOCK THIS OUT IF NOT DEPLOYING TO DIGITALOCEAN ##
+echo 'export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)' >> $USRDIR/.zshrc
+echo 'export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv6/address)' >> $USRDIR/.zshrc
+echo 'export SENTRY_DSN=https://d7eb76933ae046c9a4fd3d29572b1462:3aba191d95a648118e78cc5f81cbd92c@sentry.adventuresinnewmedia.com/43' >> $USRDIR/.zshrc
+## BLOCK THIS OUT IF NOT DEPLOYING TO DIGITALOCEAN ##
 
 ## Install Plugins
   ## Auto Suggestions
