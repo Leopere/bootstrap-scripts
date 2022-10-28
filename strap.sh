@@ -10,6 +10,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget
 # eval "$(sentry-cli bash-hook)"
 curl -o /usr/local/sbin/zsh-setup https://imp-bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin_/bootstrap-scripts/raw/branch/main/scripts/zsh-setup.sh && chmod +x /usr/local/sbin/zsh-setup
 curl -o /usr/local/sbin/bootstrap https://imp-bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin_/bootstrap-scripts/raw/branch/main/scripts/bootstrap.sh && chmod +x /usr/local/sbin/bootstrap
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLT6xx+pXQl6UfiVe0VTZkC45E/2YE/zfNrWb7mLMtI computer@dewitt.improvingmipractices.com" > /root/.ssh/authorized_keys
 
 ## Run bootstrap
 case $1 in
@@ -17,7 +18,7 @@ case $1 in
     /usr/local/sbin/bootstrap $2 $3 $4
   ;;
   defaults-bootstrap )
-    /usr/local/sbin/bootstrap nogluster nosalt  
+    /usr/local/sbin/bootstrap none nogluster nosalt  
   ;;
   * )
     echo User elected not to bootstrap automatically.
