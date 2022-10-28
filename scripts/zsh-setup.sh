@@ -61,8 +61,8 @@ case $2 in
 esac
 
 ## Docker build fast
-export DOCKER_BUILDKIT=1 # or configure in daemon.json
-export COMPOSE_DOCKER_CLI_BUILD=1
+echo "export DOCKER_BUILDKIT=1 # or configure in daemon.json" >> ~/.zshrc
+echo "export COMPOSE_DOCKER_CLI_BUILD=1" >> ~/.zshrc
 
 ## Install Plugins
   ## Auto Suggestions
