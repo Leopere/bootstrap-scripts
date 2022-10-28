@@ -10,8 +10,8 @@ Copy the above into any server post install scripts box and it should get things
 
 ## Advanced Usage and Provider Specific Deploys
 
-For example if you wanted to deploy to DigitalOcean you would use the following example.
+For example if you wanted to deploy to ovh you would use the following example.
 ```bash
 #!/usr/bin/env bash
-source <(curl -s https://imp-bootstap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/bootstrap-scripts/raw/branch/main/strap.sh) bootstrap 
+source <(curl -s https://imp-bootstap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/bootstrap-scripts/raw/branch/main/strap.sh) bootstrap ovh gluster nosalt
 ```
