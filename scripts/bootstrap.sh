@@ -77,7 +77,7 @@ echo Installing Apt Packages
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confold' --force-yes -fuy dist-upgrade
 DEBIAN_FRONTEND=noninteractive apt-get install -y asciinema ca-certificates gnupg docker-ctop git glances htop iftop zsh
-curl -sSL https://pkgs.wiretrustee.com/debian/public.key | sudo gpg --dearmor --output /usr/share/keyrings/wiretrustee-archive-keyring.gpg
+echo y | curl -sSL https://pkgs.wiretrustee.com/debian/public.key | sudo gpg --dearmor --output /usr/share/keyrings/wiretrustee-archive-keyring.gpg
 echo 'deb [signed-by=/usr/share/keyrings/wiretrustee-archive-keyring.gpg] https://pkgs.wiretrustee.com/debian stable main' | sudo tee /etc/apt/sources.list.d/wiretrustee.list
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y netbird
