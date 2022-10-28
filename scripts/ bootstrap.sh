@@ -24,7 +24,7 @@ function install_salt() {
   curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main" | sudo tee /etc/apt/sources.list.d/salt.list
   mkdir -p /etc/salt/minion.d/
-  echo 'master: rios.aenow.fun' > /etc/salt/minion.d/99-master-address.conf  
+  echo 'master: salt.aenow.fun' > /etc/salt/minion.d/99-master-address.conf  
 }
 
 function install_gluster_pre() {
@@ -99,7 +99,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 DEBIAN_FRONTEND=noninteractive apt-get install -y docker-compose-plugin
 ## Install CTOP Container Top https://github.com/bcicen/ctop
-wget https://github.com/bcicen/ctop/releases/download/0.7.6/ctop-0.7.6-linux-amd64 -O /usr/local/bin/ctop
+wget https://github.com/bcicen/ctop/releases/download/0.7.7/ctop-0.7.7-linux-amd64 -O /usr/local/bin/ctop
 chmod +x /usr/local/bin/ctop
 
 ## This may no longer be required going forward, it'll be better to call it on first login instead with args.
