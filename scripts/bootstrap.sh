@@ -117,7 +117,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 DEBIAN_FRONTEND=noninteractive apt-get install -y docker-compose-plugin
 ## Install CTOP Container Top https://github.com/bcicen/ctop
-wget https://github.com/bcicen/ctop/releases/download/0.7.7/ctop-0.7.7-linux-amd64 -O /usr/local/bin/ctop
+wget https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.7-linux-amd64 -O /usr/local/bin/ctop
 chmod +x /usr/local/bin/ctop
 
 ## This may no longer be required going forward, it'll be better to call it on first login instead with args.
