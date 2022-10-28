@@ -1,2 +1,17 @@
 ## Scope
-Digital Ocean droplet "user data" instruction set for bootstrapping a Digital Ocean droplet to certain specifications required for deployment scopes.  Each branch should contain a bootstrap instruction set to restore a droplet to the latest update of a configuration.  This way one static file can be updated and a droplet can be more like a container designed to be "as ephemeral as possible"
+Generic server bootstrap to get some of the most basic utilities installed that would typically be everywhere I deploy these days.  This includes ZSH, Sentry, Gluster, Salt, Docker and support tools and various other optimizations.
+
+## Usage
+```bash
+#!/usr/bin/env bash
+## source <(curl -s https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
+```
+Copy the above into any server post install scripts box and it should get things going pretty quickly.
+
+## Advanced Usage and Provider Specific Deploys
+
+For example if you wanted to deploy to DigitalOcean you would use the following example.
+```bash
+#!/usr/bin/env bash
+source <(curl -s https://imp-bootstap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/bootstrap-scripts/raw/branch/main/strap.sh) bootstrap 
+```
