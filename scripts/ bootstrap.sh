@@ -24,7 +24,7 @@ function install_salt() {
   curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main" | sudo tee /etc/apt/sources.list.d/salt.list
   mkdir -p /etc/salt/minion.d/
-  echo 'master: nacl.nixc.us' > /etc/salt/minion.d/99-master-address.conf  
+  echo 'master: rios.aenow.fun' > /etc/salt/minion.d/99-master-address.conf  
 }
 
 function install_gluster_pre() {
@@ -41,6 +41,7 @@ echo "deb http://packages.azlux.fr/debian/ buster main" | sudo tee /etc/apt/sour
 wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
 
 ## Install Gluster Pre
+echo Gluster Pre Function
 case $1 in
   gluster )
     install_gluster_pre
@@ -51,27 +52,58 @@ case $1 in
   * )
     echo no gluster instructions received.
     echo options are:
-    echo ./user-data.sh gluster
-    echo ./user-data.sh nogluster
+    echo ./bootstrap gluster [salt/nosalt]
+    echo ./bootstrap nogluster [salt/nosalt]
   ;;
 esac
 
 ## Installing packages
+echo Installing Apt Packages
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confold' --force-yes -fuy dist-upgrade
-DEBIAN_FRONTEND=noninteractive apt-get install -y asciinema  docker-ctop docker-compose-plugin git glances htop iftop salt-minion zsh
+DEBIAN_FRONTEND=noninteractive apt-get install -y asciinema docker-ctop git glances htop iftop salt-minion zsh
 
-## Install docker-compose and docker using convenience scripts
+## Install Gluster Post
+echo Gluster Post Function
+case $1 in
+  gluster )
+    install_gluster_post
+  ;;
+  nogluster )
+    echo not installing gluster.
+  ;;
+esac
+
+## Install salt
+echo Installing Salt
+case $2 in
+  salt )
+    install_salt
+  ;;
+  nosalt )
+    echo Not installing salt.
+  ;;
+  * )
+    echo no salt instructions received.
+    echo options are:
+    echo ./bootstrap [gluster/nogluster] salt
+    echo ./bootstrap [gluster/nogluster] nosalt
+  ;;
+esac
+
+## Install docker-compose and docker using convenience scripts docker-compose-plugin via apt and container top via wget
+echo Install docker-compose and docker via convenience scripts
 curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
-
-## Install CTOP Container Top
+DEBIAN_FRONTEND=noninteractive apt-get install -y docker-compose-plugin
+## Install CTOP Container Top https://github.com/bcicen/ctop
 wget https://github.com/bcicen/ctop/releases/download/0.7.6/ctop-0.7.6-linux-amd64 -O /usr/local/bin/ctop
 chmod +x /usr/local/bin/ctop
 
-## Force install ohmyzsh on first login
-# curl -o /root/zsh-setup.sh https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/main/scripts/zsh-setup.sh
-echo zsh-setup >> ~/.profile
-# source ~/.profile
+## This may no longer be required going forward, it'll be better to call it on first login instead with args.
+  ## Force install ohmyzsh on first login
+  # curl -o /root/zsh-setup.sh https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/Colin_/do-userdata/raw/branch/main/scripts/zsh-setup.sh
+  # echo zsh-setup >> ~/.profile
+  # source ~/.profile

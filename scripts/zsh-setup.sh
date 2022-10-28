@@ -91,7 +91,6 @@ EOF
 ## Enable plugins
 sed -i'' -e 's@plugins=(git)@plugins=(git cp colored-man-pages docker docker-compose extract iterm2 python rsync safe-paste transfer ubuntu zsh-navigation-tools zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search command-time universalarchive)@' $USRDIR/.zshrc
 
-
 ## Cleanup
 sed -i'' -e 's@bash $USRDIR/zsh-setup.sh@@' $USRDIR/.profile
 #rm -f $USRDIR/zsh-setup.sh
