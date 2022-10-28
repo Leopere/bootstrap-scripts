@@ -20,6 +20,6 @@ case $1 in
     /usr/local/sbin/bootstrap nogluster nosalt  
   ;;
   * )
-    echo User elected not to bootstrap.
+    echo User elected not to bootstrap automatically.
   ;;
 esac
