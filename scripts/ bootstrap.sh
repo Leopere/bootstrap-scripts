@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -e
-
 echo 'export SENTRY_DSN=https://4d089076433c4a7aa31bbb2741f053fe@sentry.aenow.com/3'
 eval "$(sentry-cli bash-hook)"
-
-
 ## DigitalOcean's API for obtaining server metadata.
 function digitalocean() {
   export HOSTNAME=$(curl -s http://169.254.169.254/metadata/v1/hostname)
@@ -15,12 +12,10 @@ function digitalocean() {
   export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
   export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv6/address)
 } 
-
 ## Add anything for OVH here.
 function ovh() {
   echo Nothing special for DigitalOcean at this stage.
 }
-
 ## Choose which DC provider sepecifics need installed.
 case $1 in
   digitalocean )
@@ -39,17 +34,17 @@ case $1 in
     echo bootstrap none [gluster/nogluster] [salt/nosalt]
   ;;
 esac
-
-
-
 function install_salt() {
-  ## Installing Salt for Ubuntu 20.04
-  curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
-  echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main" | sudo tee /etc/apt/sources.list.d/salt.list
+  # ## Installing Salt for Ubuntu 20.04
+  # curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest/salt-archive-keyring.gpg
+  # echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/ubuntu/20.04/amd64/latest focal main" | sudo tee /etc/apt/sources.list.d/salt.list
+  sudo curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/latest/salt-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/latest jammy main" | sudo tee /etc/apt/sources.list.d/salt.list
   mkdir -p /etc/salt/minion.d/
-  echo 'master: rios.aenow.fun' > /etc/salt/minion.d/99-master-address.conf  
+  echo 'master: rios.aenow.fun' > /etc/salt/minion.d/99-master-address.conf
+  apt-get update
+  DEBIAN_FRONTEND=noninteractive apt-get install -y salt-minion
 }
-
 function install_gluster_pre() {
   ## Installing Glusterfs-7 https://www.digitalocean.com/community/tutorials/how-to-create-a-redundant-storage-pool-using-glusterfs-on-ubuntu-20-04
   apt-get update && apt-get -y install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates
@@ -58,11 +53,9 @@ function install_gluster_pre() {
 function install_gluster_post() {
   DEBIAN_FRONTEND=noninteractive apt-get install -y glusterfs-server glusterfs-client
 }
-
 ## Install Container Top ctop
 echo "deb http://packages.azlux.fr/debian/ buster main" | sudo tee /etc/apt/sources.list.d/azlux.list
 wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
-
 ## Install Gluster Pre
 echo Gluster Pre Function
 case $2 in
@@ -79,13 +72,11 @@ case $2 in
     echo bootstrap [hostingProvider] nogluster [salt/nosalt]
   ;;
 esac
-
 ## Installing packages
 echo Installing Apt Packages
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confold' --force-yes -fuy dist-upgrade
-DEBIAN_FRONTEND=noninteractive apt-get install -y asciinema docker-ctop git glances htop iftop salt-minion zsh
-
+DEBIAN_FRONTEND=noninteractive apt-get install -y asciinema docker-ctop git glances htop iftop zsh
 ## Install Gluster Post
 echo Gluster Post Function
 case $2 in
@@ -96,12 +87,12 @@ case $2 in
     echo not installing gluster.
   ;;
 esac
-
 ## Install salt
 echo Installing Salt
 case $3 in
   salt )
     install_salt
+    
   ;;
   nosalt )
     echo Not installing salt.
@@ -113,7 +104,6 @@ case $3 in
     echo bootstrap [hostingProvider] [gluster/nogluster] nosalt
   ;;
 esac
-
 ## Install docker-compose and docker using convenience scripts
 echo Install docker-compose and docker via convenience scripts
 curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
