@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  bootstrap-scripts:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: git.nixc.us/colin/bootstrap-scripts
