@@ -4,7 +4,7 @@ Generic server bootstrap to get some of the most basic utilities installed that 
 ## Usage
 ```bash
 #!/usr/bin/env bash
-## source <(curl -s https://digitalocean-user-data:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin_/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
+## source <(curl -s https://bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin_/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
 ```
 Copy the above into any server post install scripts box and it should get things going pretty quickly.
 
@@ -13,5 +13,5 @@ Copy the above into any server post install scripts box and it should get things
 For example if you wanted to deploy to ovh you would use the following example.
 ```bash
 #!/usr/bin/env bash
-source <(curl -s https://imp-bootstap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin_/bootstrap-scripts/raw/branch/main/strap.sh) bootstrap ovh gluster nosalt
+source <(curl -s https://bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin_/bootstrap-scripts/raw/branch/main/strap.sh) bootstrap ovh gluster nosalt
 ```

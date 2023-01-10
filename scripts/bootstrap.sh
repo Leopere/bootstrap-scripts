@@ -11,7 +11,7 @@ function digitalocean() {
   # hostname -f
   export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
   export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv6/address)
-} 
+}
 ## Add anything for OVH here.
 function ovh() {
   echo Nothing special for DigitalOcean at this stage.
@@ -97,7 +97,7 @@ echo Installing Salt
 case $3 in
   salt )
     install_salt
-    
+
   ;;
   nosalt )
     echo Not installing salt.
@@ -122,6 +122,6 @@ chmod +x /usr/local/bin/ctop
 
 ## This may no longer be required going forward, it'll be better to call it on first login instead with args.
   ## Force install ohmyzsh on first login
-  # curl -o /root/zsh-setup.sh https://imp-bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin_/do-userdata/raw/branch/main/scripts/zsh-setup.sh
+  # curl -o /root/zsh-setup.sh https://bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin_/do-userdata/raw/branch/main/scripts/zsh-setup.sh
   # echo zsh-setup >> ~/.profile
   # source ~/.profile
