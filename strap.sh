@@ -4,12 +4,12 @@ set -e
 ## Basic deps
 DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget
 
-## source <(curl -s https://bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
+## source <(curl -s https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
 # curl -sL https://sentry.io/get-cli/ | bash
 # echo 'export SENTRY_DSN=https://4d089076433c4a7aa31bbb2741f053fe@sentry.aenow.com/3'
 # eval "$(sentry-cli bash-hook)"
-curl -o /usr/local/sbin/zsh-setup https://bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/zsh-setup.sh && chmod +x /usr/local/sbin/zsh-setup
-curl -o /usr/local/sbin/bootstrap https://bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/bootstrap.sh && chmod +x /usr/local/sbin/bootstrap
+curl -o /usr/local/sbin/zsh-setup https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/zsh-setup.sh && chmod +x /usr/local/sbin/zsh-setup
+curl -o /usr/local/sbin/bootstrap https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/bootstrap.sh && chmod +x /usr/local/sbin/bootstrap
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLT6xx+pXQl6UfiVe0VTZkC45E/2YE/zfNrWb7mLMtI computer@dewitt.improvingmipractices.com" > /root/.ssh/authorized_keys
 
 ## Run bootstrap
@@ -30,12 +30,12 @@ set -e
 ## Basic deps
 DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget
 
-## source <(curl -s https://bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
+## source <(curl -s https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
 # curl -sL https://sentry.io/get-cli/ | bash
 # echo 'export SENTRY_DSN=https://4d089076433c4a7aa31bbb2741f053fe@sentry.aenow.com/3'
 # eval "$(sentry-cli bash-hook)"
-curl -o /usr/local/sbin/zsh-setup https://bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/zsh-setup.sh && chmod +x /usr/local/sbin/zsh-setup
-curl -o /usr/local/sbin/bootstrap https://bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/bootstrap.sh && chmod +x /usr/local/sbin/bootstrap
+curl -o /usr/local/sbin/zsh-setup https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/zsh-setup.sh && chmod +x /usr/local/sbin/zsh-setup
+curl -o /usr/local/sbin/bootstrap https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/bootstrap.sh && chmod +x /usr/local/sbin/bootstrap
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLT6xx+pXQl6UfiVe0VTZkC45E/2YE/zfNrWb7mLMtI computer@dewitt.improvingmipractices.com" > /root/.ssh/authorized_keys
 
 ## Run bootstrap
