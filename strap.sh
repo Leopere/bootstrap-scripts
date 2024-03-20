@@ -1,52 +1,27 @@
 #!/usr/bin/env bash
 set -e
 
-## Basic deps
-DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget
+# Basic dependencies installation
+DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y curl wget
 
-## source <(curl -s https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
-# curl -sL https://sentry.io/get-cli/ | bash
-# echo 'export SENTRY_DSN=https://4d089076433c4a7aa31bbb2741f053fe@sentry.aenow.com/3'
-# eval "$(sentry-cli bash-hook)"
+# Downloading bootstrap scripts
 curl -o /usr/local/sbin/zsh-setup https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/zsh-setup.sh && chmod +x /usr/local/sbin/zsh-setup
 curl -o /usr/local/sbin/bootstrap https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/bootstrap.sh && chmod +x /usr/local/sbin/bootstrap
-echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLT6xx+pXQl6UfiVe0VTZkC45E/2YE/zfNrWb7mLMtI computer@dewitt.improvingmipractices.com" > /root/.ssh/authorized_keys
 
-## Run bootstrap
+# Update Dewitt SSH key
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxoakgL0Tq4mAv+UMnFc3PZptPCXz8ObCsyVmBtiB2P defaultkey_key" > /root/.ssh/authorized_keys
+
+# Ensure .ssh directory exists and proper permissions are set
+mkdir -p /root/.ssh
+chmod 700 /root/.ssh
+chmod 600 /root/.ssh/authorized_keys
+
+# Run bootstrap based on input parameters or default action
 case $1 in
-  bootstrap )
-    /usr/local/sbin/bootstrap $2 $3 $4
-  ;;
-  defaults-bootstrap )
+  bootstrap)
+    /usr/local/sbin/bootstrap "$2" "$3" "$4"
+    ;;
+  defaults-bootstrap|*)
     /usr/local/sbin/bootstrap none nogluster nosalt
-  ;;
-  * )
-    /usr/local/sbin/bootstrap none nogluster nosalt
-  ;;
-esac
-#!/usr/bin/env bash
-set -e
-
-## Basic deps
-DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget
-
-## source <(curl -s https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
-# curl -sL https://sentry.io/get-cli/ | bash
-# echo 'export SENTRY_DSN=https://4d089076433c4a7aa31bbb2741f053fe@sentry.aenow.com/3'
-# eval "$(sentry-cli bash-hook)"
-curl -o /usr/local/sbin/zsh-setup https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/zsh-setup.sh && chmod +x /usr/local/sbin/zsh-setup
-curl -o /usr/local/sbin/bootstrap https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/bootstrap.sh && chmod +x /usr/local/sbin/bootstrap
-echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLT6xx+pXQl6UfiVe0VTZkC45E/2YE/zfNrWb7mLMtI computer@dewitt.improvingmipractices.com" > /root/.ssh/authorized_keys
-
-## Run bootstrap
-case $1 in
-  bootstrap )
-    /usr/local/sbin/bootstrap $2 $3 $4
-  ;;
-  defaults-bootstrap )
-    /usr/local/sbin/bootstrap none nogluster nosalt
-  ;;
-  * )
-    /usr/local/sbin/bootstrap none nogluster nosalt
-  ;;
+    ;;
 esac
