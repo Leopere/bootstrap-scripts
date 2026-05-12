@@ -3,4 +3,4 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    image: git.nixc.us/colin/bootstrap-scripts
+    image: ghcr.io/leopere/bootstrap-scripts

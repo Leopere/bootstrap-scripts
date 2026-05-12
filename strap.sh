@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-: "${STRAP_BASE_URL:=https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main}"
+: "${STRAP_BASE_URL:=https://raw.githubusercontent.com/Leopere/bootstrap-scripts/main}"
 : "${STRAP_AUTHORIZED_KEYS:=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxoakgL0Tq4mAv+UMnFc3PZptPCXz8ObCsyVmBtiB2P defaultkey_key}"
 
 usage() {

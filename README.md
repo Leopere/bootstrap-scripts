@@ -7,7 +7,7 @@ A server bootstrap script that installs essential utilities and configurations: 
 To run the bootstrap with the default configuration on a fresh host (as root):
 
 ```bash
-source <(curl -fsSL https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
+source <(curl -fsSL https://raw.githubusercontent.com/Leopere/bootstrap-scripts/main/strap.sh) defaults-bootstrap
 ```
 
 This fetches and executes the bootstrap script, applying a standard suite of tools and settings.
@@ -19,7 +19,7 @@ The bootstrap supports per-provider configuration and selective feature toggles 
 #### Example for OVH deployment
 
 ```bash
-source <(curl -fsSL https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) bootstrap ovh nosalt
+source <(curl -fsSL https://raw.githubusercontent.com/Leopere/bootstrap-scripts/main/strap.sh) bootstrap ovh nosalt
 ```
 
 #### Argument reference
@@ -32,7 +32,7 @@ source <(curl -fsSL https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `STRAP_BASE_URL` | `https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main` | Base URL for fetching `bootstrap.sh` / `zsh-setup.sh` |
+| `STRAP_BASE_URL` | `https://raw.githubusercontent.com/Leopere/bootstrap-scripts/main` | Base URL for fetching `bootstrap.sh` / `zsh-setup.sh` |
 | `STRAP_AUTHORIZED_KEYS` | built-in `defaultkey_key` | SSH public key appended to `/root/.ssh/authorized_keys` |
 | `STRAP_SENTRY_DSN` | `https://...@sentry.aenow.com/3` | Sentry DSN exported in `.zshrc` |
 | `STRAP_SALT_MASTER` | `aerence.aenow.fun` | Salt master address (only used when `SALT=salt`) |
@@ -41,5 +41,5 @@ Example:
 
 ```bash
 STRAP_AUTHORIZED_KEYS="$(cat ~/.ssh/id_ed25519.pub)" \
-  source <(curl -fsSL https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
+  source <(curl -fsSL https://raw.githubusercontent.com/Leopere/bootstrap-scripts/main/strap.sh) defaults-bootstrap
 ```
