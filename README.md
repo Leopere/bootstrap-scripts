@@ -1,7 +1,7 @@
 ## Bootstrap Script Documentation
 
 ### Scope
-A server bootstrap script that installs essential utilities and configurations: ZSH (with Oh My Zsh and plugins), Docker (with the Compose v2 plugin), system tooling (htop, glances, iftop, ctop), and optional provider / Salt configuration. Targets Debian/Ubuntu hosts (`apt-get`) on `amd64` or `arm64`. Re-runs are safe — edits to `.zshrc` and SSH keys are idempotent.
+A server bootstrap script that installs essential utilities and configurations: ZSH (with Oh My Zsh and plugins), Docker (with the Compose v2 plugin), a single-node Docker Swarm, system tooling (htop, glances, iftop, ctop), and optional provider / Salt configuration. Targets Debian/Ubuntu hosts (`apt-get`) on `amd64` or `arm64`. Re-runs are safe — edits to `.zshrc`, SSH keys, and swarm state are idempotent.
 
 ### Usage
 To run the bootstrap with the default configuration on a fresh host (as root):

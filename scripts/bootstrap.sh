@@ -80,6 +80,33 @@ if ! command -v docker >/dev/null 2>&1; then
 fi
 DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends docker-compose-plugin
 
+init_swarm() {
+  local state advertise_addr err
+  state="$(docker info --format '{{.Swarm.LocalNodeState}}' 2>/dev/null || true)"
+  if [ "$state" = "active" ]; then
+    echo "Swarm already active, skipping init."
+    return 0
+  fi
+  if err="$(docker swarm init 2>&1 >/dev/null)"; then
+    echo "Swarm initialized."
+    return 0
+  fi
+  # Multi-interface hosts force --advertise-addr; pick the first global IPv4.
+  if echo "$err" | grep -q 'could not choose'; then
+    advertise_addr="$(ip -4 -o addr show scope global 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1)"
+    if [ -n "$advertise_addr" ]; then
+      echo "Retrying swarm init with --advertise-addr $advertise_addr"
+      docker swarm init --advertise-addr "$advertise_addr"
+      return 0
+    fi
+  fi
+  echo "$err" >&2
+  return 1
+}
+
+echo "Initializing single-node Docker Swarm"
+init_swarm
+
 echo "Installing CTOP"
 case "$ARCH" in
   amd64|arm64)
