@@ -1,27 +1,59 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-# Basic dependencies installation
-DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y curl wget
+: "${STRAP_BASE_URL:=https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main}"
+: "${STRAP_AUTHORIZED_KEYS:=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxoakgL0Tq4mAv+UMnFc3PZptPCXz8ObCsyVmBtiB2P defaultkey_key}"
 
-# Downloading bootstrap scripts
-curl -o /usr/local/sbin/zsh-setup https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/zsh-setup.sh && chmod +x /usr/local/sbin/zsh-setup
-curl -o /usr/local/sbin/bootstrap https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/bootstrap.sh && chmod +x /usr/local/sbin/bootstrap
+usage() {
+  cat <<USAGE
+Usage:
+  strap.sh                          run defaults (provider=none, no salt)
+  strap.sh defaults-bootstrap       run defaults explicitly
+  strap.sh bootstrap PROVIDER SALT  PROVIDER in {none, ovh, digitalocean}; SALT in {salt, nosalt}
 
-# Update Dewitt SSH key
-echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxoakgL0Tq4mAv+UMnFc3PZptPCXz8ObCsyVmBtiB2P defaultkey_key" > /root/.ssh/authorized_keys
+Environment overrides:
+  STRAP_BASE_URL          base URL for fetching scripts
+  STRAP_AUTHORIZED_KEYS   ssh public key(s) to install (default: built-in defaultkey)
+USAGE
+}
 
-# Ensure .ssh directory exists and proper permissions are set
+if [ "${EUID:-$(id -u)}" -ne 0 ]; then
+  echo "strap.sh must be run as root" >&2
+  exit 1
+fi
+
+if ! command -v apt-get >/dev/null 2>&1; then
+  echo "strap.sh requires a Debian/Ubuntu host (apt-get not found)" >&2
+  exit 1
+fi
+
+DEBIAN_FRONTEND=noninteractive apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl wget ca-certificates
+
+curl -fsSL -o /usr/local/sbin/zsh-setup "$STRAP_BASE_URL/scripts/zsh-setup.sh"
+curl -fsSL -o /usr/local/sbin/bootstrap "$STRAP_BASE_URL/scripts/bootstrap.sh"
+chmod +x /usr/local/sbin/zsh-setup /usr/local/sbin/bootstrap
+
 mkdir -p /root/.ssh
 chmod 700 /root/.ssh
+touch /root/.ssh/authorized_keys
 chmod 600 /root/.ssh/authorized_keys
+grep -qxF "$STRAP_AUTHORIZED_KEYS" /root/.ssh/authorized_keys \
+  || echo "$STRAP_AUTHORIZED_KEYS" >> /root/.ssh/authorized_keys
 
-# Run bootstrap based on input parameters or default action
-case $1 in
+case "${1:-defaults-bootstrap}" in
   bootstrap)
-    /usr/local/sbin/bootstrap "$2" "$3" "$4"
+    /usr/local/sbin/bootstrap "${2:-none}" "${3:-nosalt}"
     ;;
-  defaults-bootstrap|*)
-    /usr/local/sbin/bootstrap none nogluster nosalt
+  defaults-bootstrap)
+    /usr/local/sbin/bootstrap none nosalt
+    ;;
+  -h|--help|help)
+    usage
+    ;;
+  *)
+    echo "Unknown command: ${1:-}" >&2
+    usage >&2
+    exit 1
     ;;
 esac

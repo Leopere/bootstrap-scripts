@@ -1,74 +1,96 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Sentry setup
-echo 'export SENTRY_DSN=https://4d089076433c4a7aa31bbb2741f053fe@sentry.aenow.com/3' >> ~/.zshrc
-eval "$(sentry-cli bash-hook)"
+: "${STRAP_SENTRY_DSN:=https://4d089076433c4a7aa31bbb2741f053fe@sentry.aenow.com/3}"
+: "${STRAP_SALT_MASTER:=aerence.aenow.fun}"
 
-# Functions for provider-specific configurations
+PROVIDER="${1:-none}"
+SALT_MODE="${2:-nosalt}"
+
+# shellcheck disable=SC1091
+. /etc/os-release
+CODENAME="${UBUNTU_CODENAME:-${VERSION_CODENAME:-jammy}}"
+VERSION_ID_SHORT="${VERSION_ID:-22.04}"
+ARCH="$(dpkg --print-architecture)"
+HOME_DIR="${HOME:-/root}"
+ZSHRC="$HOME_DIR/.zshrc"
+
+append_unique() {
+  local line="$1" file="$2"
+  touch "$file"
+  grep -qxF "$line" "$file" || echo "$line" >> "$file"
+}
+
+append_unique "export SENTRY_DSN=$STRAP_SENTRY_DSN" "$ZSHRC"
+
 digitalocean() {
-  export HOSTNAME=$(curl -s http://169.254.169.254/metadata/v1/hostname)
-  hostnamectl set-hostname "$HOSTNAME"
-  export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
-  export PUBLIC_IPV6=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv6/address)
+  local md_base=http://169.254.169.254/metadata/v1
+  local hostname
+  hostname=$(curl -fsS "$md_base/hostname" || true)
+  if [ -n "$hostname" ]; then
+    hostnamectl set-hostname "$hostname"
+  fi
 }
 
 ovh() {
-  echo "Nothing special for OVH at this stage."
+  echo "No OVH-specific configuration needed."
 }
 
-# Provider setup
-case $1 in
+case "$PROVIDER" in
   digitalocean) digitalocean ;;
-  ovh) ovh ;;
-  none) echo "Nothing special going to be done here." ;;
-  *) echo "bootstrap options are:"
-     echo "bootstrap ovh [salt/nosalt]"
-     echo "bootstrap digitalocean [salt/nosalt]"
-     echo "bootstrap none [salt/nosalt]" ;;
+  ovh)          ovh ;;
+  none)         echo "No provider-specific configuration." ;;
+  *)
+    echo "Unknown provider '$PROVIDER'. Options: none, ovh, digitalocean" >&2
+    exit 1
+    ;;
 esac
 
-# Salt installation
 install_salt() {
-  sudo curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/latest/salt-archive-keyring.gpg
-  echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/latest jammy main" | sudo tee /etc/apt/sources.list.d/salt.list
+  curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg \
+    "https://repo.saltproject.io/salt/py3/ubuntu/${VERSION_ID_SHORT}/${ARCH}/latest/salt-archive-keyring.gpg"
+  echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=${ARCH}] https://repo.saltproject.io/salt/py3/ubuntu/${VERSION_ID_SHORT}/${ARCH}/latest ${CODENAME} main" \
+    > /etc/apt/sources.list.d/salt.list
   mkdir -p /etc/salt/minion.d/
-  echo 'master: aerence.aenow.fun' > /etc/salt/minion.d/99-master-address.conf
-  apt-get update
-  DEBIAN_FRONTEND=noninteractive apt-get install -y salt-minion
+  echo "master: $STRAP_SALT_MASTER" > /etc/salt/minion.d/99-master-address.conf
+  DEBIAN_FRONTEND=noninteractive apt-get update
+  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends salt-minion
 }
 
-# Salt installation based on user selection
-case $2 in
-  salt) install_salt ;;
-  nosalt) echo "Not installing salt." ;;
-  *) echo "No salt instructions received."
-     echo "Options are:"
-     echo "bootstrap [hostingProvider] salt"
-     echo "bootstrap [hostingProvider] nosalt" ;;
+case "$SALT_MODE" in
+  salt)   install_salt ;;
+  nosalt) echo "Skipping salt-minion install." ;;
+  *)
+    echo "Unknown salt mode '$SALT_MODE'. Options: salt, nosalt" >&2
+    exit 1
+    ;;
 esac
 
-# Apt package installations
-echo "Installing Apt Packages"
-apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confold' --force-yes -fuy dist-upgrade
-DEBIAN_FRONTEND=noninteractive apt-get install -y asciinema ca-certificates gnupg git glances htop iftop zsh
-apt-get update
+echo "Installing apt packages"
+DEBIAN_FRONTEND=noninteractive apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confold' -y dist-upgrade
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  asciinema ca-certificates gnupg git glances htop iftop zsh
 
-# Docker and docker-compose installation
-echo "Install docker-compose and docker via convenience scripts"
-curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-DEBIAN_FRONTEND=noninteractive apt-get install -y docker-compose-plugin
+echo "Installing Docker and compose plugin"
+if ! command -v docker >/dev/null 2>&1; then
+  curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+  sh /tmp/get-docker.sh
+  rm -f /tmp/get-docker.sh
+fi
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends docker-compose-plugin
 
-# CTOP installation
 echo "Installing CTOP"
-wget https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.7-linux-amd64 -O /usr/local/bin/ctop
-chmod +x /usr/local/bin/ctop
+case "$ARCH" in
+  amd64|arm64)
+    curl -fsSL "https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.7-linux-${ARCH}" \
+      -o /usr/local/bin/ctop
+    chmod +x /usr/local/bin/ctop
+    ;;
+  *)
+    echo "Skipping CTOP (unsupported arch: $ARCH)" >&2
+    ;;
+esac
 
-# Setup Oh My Zsh on first login
-curl -o /root/zsh-setup.sh https://bootstrap:sHEG3NTC6og8pCJDTF6EPYb8jLmbskx5Ns@git.nixc.us/colin/bootstrap-scripts/raw/branch/main/scripts/zsh-setup.sh
-echo "zsh-setup" >> ~/.profile
-source ~/.profile
+echo "Running zsh setup"
+STRAP_SENTRY_DSN="$STRAP_SENTRY_DSN" /usr/local/sbin/zsh-setup "$PROVIDER" ae-sentry

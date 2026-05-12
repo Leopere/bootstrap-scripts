@@ -1,34 +1,45 @@
 ## Bootstrap Script Documentation
 
 ### Scope
-This document details the usage of a server bootstrap script aimed at installing essential utilities and configurations for server setups. It supports the installation of ZSH, Docker, along with various optimizations and support tools.
+A server bootstrap script that installs essential utilities and configurations: ZSH (with Oh My Zsh and plugins), Docker (with the Compose v2 plugin), system tooling (htop, glances, iftop, ctop), and optional provider / Salt configuration. Targets Debian/Ubuntu hosts (`apt-get`) on `amd64` or `arm64`. Re-runs are safe — edits to `.zshrc` and SSH keys are idempotent.
 
 ### Usage
-To initiate the bootstrap process with the default configuration, embed the following command in your server's post-installation scripts:
+To run the bootstrap with the default configuration on a fresh host (as root):
 
 ```bash
-#!/usr/bin/env bash
-## source <(curl -s https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
+source <(curl -fsSL https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
 ```
 
-This line fetches and executes the bootstrap script, setting up the server with a standard suite of tools and settings.
+This fetches and executes the bootstrap script, applying a standard suite of tools and settings.
 
-### Advanced Usage and Provider Specific Deploys
+### Advanced Usage and Provider-specific Deploys
 
-The bootstrap script accommodates deployments specific to different providers, allowing for the inclusion or exclusion of selected features based on requirements.
+The bootstrap supports per-provider configuration and selective feature toggles via positional args.
 
-#### Example for OVH Deployment:
-For deploying on an OVH server with tailored settings, use the example below:
+#### Example for OVH deployment
 
 ```bash
-#!/usr/bin/env bash
-source <(curl -s https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) bootstrap ovh nosalt
+source <(curl -fsSL https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) bootstrap ovh nosalt
 ```
 
-This example demonstrates how to configure a server specifically for OVH, omitting Salt configuration management.
+#### Argument reference
+- `strap.sh defaults-bootstrap` — provider=`none`, salt=`nosalt`. Also the default when no args are given.
+- `strap.sh bootstrap PROVIDER SALT` where:
+  - `PROVIDER` ∈ {`none`, `ovh`, `digitalocean`}
+  - `SALT` ∈ {`salt`, `nosalt`}
 
-#### Deployment Customization:
-- The first argument after `bootstrap` indicates the target cloud provider or environment (e.g., `ovh`, `digitalocean`).
-- The second argument allows for specifying configuration preferences, such as excluding Salt stack installation (`nosalt`).
+### Environment overrides
 
-Adjust these parameters to customize the bootstrap process according to your deployment environment and preferences.
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `STRAP_BASE_URL` | `https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main` | Base URL for fetching `bootstrap.sh` / `zsh-setup.sh` |
+| `STRAP_AUTHORIZED_KEYS` | built-in `defaultkey_key` | SSH public key appended to `/root/.ssh/authorized_keys` |
+| `STRAP_SENTRY_DSN` | `https://...@sentry.aenow.com/3` | Sentry DSN exported in `.zshrc` |
+| `STRAP_SALT_MASTER` | `aerence.aenow.fun` | Salt master address (only used when `SALT=salt`) |
+
+Example:
+
+```bash
+STRAP_AUTHORIZED_KEYS="$(cat ~/.ssh/id_ed25519.pub)" \
+  source <(curl -fsSL https://git.nixc.us/colin/bootstrap-scripts/raw/branch/main/strap.sh) defaults-bootstrap
+```
